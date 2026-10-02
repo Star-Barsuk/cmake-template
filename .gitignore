@@ -175,6 +175,6 @@ Desktop.ini
 # ── Context ─────────────────────────────────────────────────
 .contextignore
 
-# ── Private project documents (backed up in shosoin) ────────
+# Private documents
 AGENTS.md
 docs/
