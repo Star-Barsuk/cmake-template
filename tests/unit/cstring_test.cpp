@@ -1,6 +1,5 @@
-#include <defaultproject/util/cstring.hpp>
-
 #include <cassert>
+#include <defaultproject/util/cstring.hpp>
 
 int main() {
     assert(defaultproject::util::streq("abc", "abc"));

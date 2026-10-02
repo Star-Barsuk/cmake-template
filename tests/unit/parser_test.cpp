@@ -1,6 +1,5 @@
-#include <defaultproject/cli/parser.hpp>
-
 #include <cassert>
+#include <defaultproject/cli/parser.hpp>
 #include <initializer_list>
 
 namespace {
@@ -16,10 +15,8 @@ namespace {
         return argv_storage;
     }
 
-    void expect_action(
-        std::initializer_list<const char*> args,
-        defaultproject::cli::Action expected
-    ) {
+    void
+    expect_action(std::initializer_list<const char*> args, defaultproject::cli::Action expected) {
         const int argc = static_cast<int>(args.size());
         defaultproject::cli::Options options =
             defaultproject::cli::Parser::parse(argc, make_argv(args));

@@ -1,4 +1,4 @@
-.PHONY: clean format lint check-format
+.PHONY: clean format lint check-format ci
 .PHONY: debug release sanitize lto test
 .PHONY: config-debug build-debug config-release build-release
 .PHONY: config-sanitize build-sanitize config-lto build-lto
@@ -67,6 +67,8 @@ check-format:
 	clang-format --dry-run --Werror $(SRC_FILES)
 
 lint: check-format
+
+ci: check-format test
 
 clean:
 	rm -rf build bin compile_commands.json $(DIST_DIR)
