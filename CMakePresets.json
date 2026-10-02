@@ -1,0 +1,197 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Kitware/CMake/master/Help/manual/presets/schema.json",
+    "version": 8,
+    "cmakeMinimumRequired": {
+        "major": 4,
+        "minor": 3,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "displayName": "Base",
+            "description": "Shared Ninja generator, export compile commands, per-preset build directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_COLOR_DIAGNOSTICS": "ON",
+                "BUILD_TESTING": "ON"
+            },
+            "warnings": {
+                "dev": true,
+                "deprecated": true,
+                "uninitialized": false,
+                "unusedCli": true
+            }
+        },
+        {
+            "name": "debug",
+            "displayName": "Debug",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "ENABLE_IPO": "OFF"
+            }
+        },
+        {
+            "name": "release",
+            "displayName": "Release",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "ENABLE_IPO": "OFF"
+            }
+        },
+        {
+            "name": "release-x86_64",
+            "displayName": "Release x86_64",
+            "inherits": "release",
+            "binaryDir": "${sourceDir}/build/release-x86_64",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/toolchains/linux-x86_64.cmake"
+            }
+        },
+        {
+            "name": "release-aarch64",
+            "displayName": "Release aarch64",
+            "inherits": "release",
+            "binaryDir": "${sourceDir}/build/release-aarch64",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/cmake/toolchains/linux-aarch64.cmake"
+            }
+        },
+        {
+            "name": "debug-sanitize",
+            "displayName": "Debug + sanitizers",
+            "inherits": "debug",
+            "cacheVariables": {
+                "ENABLE_SANITIZERS": "ON"
+            }
+        },
+        {
+            "name": "release-lto",
+            "displayName": "Release + LTO",
+            "inherits": "release",
+            "cacheVariables": {
+                "ENABLE_IPO": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "configurePreset": "debug"
+        },
+        {
+            "name": "release",
+            "configurePreset": "release"
+        },
+        {
+            "name": "release-x86_64",
+            "configurePreset": "release-x86_64"
+        },
+        {
+            "name": "release-aarch64",
+            "configurePreset": "release-aarch64"
+        },
+        {
+            "name": "debug-sanitize",
+            "configurePreset": "debug-sanitize"
+        },
+        {
+            "name": "release-lto",
+            "configurePreset": "release-lto"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "debug",
+            "configurePreset": "debug",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "release",
+            "configurePreset": "release",
+            "output": {
+                "outputOnFailure": true
+            }
+        },
+        {
+            "name": "debug-sanitize",
+            "configurePreset": "debug-sanitize",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "debug",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "debug"
+                },
+                {
+                    "type": "build",
+                    "name": "debug"
+                },
+                {
+                    "type": "test",
+                    "name": "debug"
+                }
+            ]
+        },
+        {
+            "name": "release",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "release"
+                },
+                {
+                    "type": "build",
+                    "name": "release"
+                },
+                {
+                    "type": "test",
+                    "name": "release"
+                }
+            ]
+        },
+        {
+            "name": "sanitize",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "debug-sanitize"
+                },
+                {
+                    "type": "build",
+                    "name": "debug-sanitize"
+                },
+                {
+                    "type": "test",
+                    "name": "debug-sanitize"
+                }
+            ]
+        },
+        {
+            "name": "lto",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "release-lto"
+                },
+                {
+                    "type": "build",
+                    "name": "release-lto"
+                }
+            ]
+        }
+    ]
+}
